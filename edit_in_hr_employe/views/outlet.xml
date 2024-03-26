@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_outlet_view_form_action" model="ir.actions.act_window">
+            <field name="name">outlet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">outlet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_uniq_menu_item" name="Outlet" parent="hr.menu_human_resources_configuration" action="id_outlet_view_form_action" sequence="1"/>
+    </data>
+</odoo>

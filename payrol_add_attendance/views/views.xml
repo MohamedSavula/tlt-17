@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_hr_contract_form_view_inherit_add_allow" model="ir.ui.view">
+            <field name="name">hr contract view inherit add allow</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="is_allow_to_days" invisible="1"/>
+                    <label for="from_date"/>
+                    <div class="o_row">
+                        <field name="from_date"/>
+                        <label for="to_date"/>
+                        <span>
+                            <field name="to_date" no_label="1"/>
+                        </span>
+                        <button name="update_allow_to_days" type="object" string="Update" class="oe_highlight"/>
+                    </div>
+                    <field name="allow_to_days"/>
+                    <field name="vacation_days"/>
+                    <field name="unpaid_leave_days"/>
+                    <field name="sick_leave_days"/>
+                    <field name="contract_status"/>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//group[@name='top_info_left']" position="inside">
+                    <field name="emp_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="id_hr_contract_search_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.search.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='not_running']" position="after">
+                    <separator/>
+                    <filter string="Contract Status" name="contract_status" domain="[]"
+                            context="{'group_by':'contract_status'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="id_view_hr_payslip_tree_inherit" model="ir.ui.view">
+            <field name="name">view_hr_payslip_tree_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="department_id" optional="show"/>
+                    <field name="work_location_id" optional="show"/>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="before">
+                    <field name="emp_code" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_hr_payslip_inheri_form" model="ir.ui.view">
+            <field name="name">hr_payslip_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="employee_screen.id_hr_payslip_inherit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='penalities']" position="after">
+                    <page string="Attendance" name="attendance">
+                        <field name="hr_attend_ids">
+                            <tree edit="false" create="false">
+                                <field name="employee_id"/>
+                                <field name="check_in"/>
+                                <field name="check_out"/>
+                                <field name="worked_hours" string="Work Hours" widget="float_time"/>
+                                <field name="limit_hours" widget="float_time"/>
+                                <field name="late" widget="float_time" sum="Total"/>
+                                <field name="over_time" widget="float_time" sum="Total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_hr_payslip_inheri_shifts" model="ir.ui.view">
+            <field name="name">hr_payslip_inherit_shifts</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="id_hr_payslip_inheri_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='attendance']" position="after">
+                    <page string="Attendance Shifts" name="attendance_shifts" invisible="1">
+                        <field name="shift_name_ids">
+                            <tree edit="false" create="false">
+                                <field name="shift_name" string="Shift Name"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="hour_from"/>
+                                <field name="hour_to"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

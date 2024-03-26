@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_hr_payslip_inheri_calculation" model="ir.ui.view">
+            <field name="name">hr_payslip_inherit_calculation</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="id_hr_payslip_inheri_shifts"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='attendance_shifts']" position="after">
+                    <page string="Calculation" name="calculation">
+                        <group/>
+                        <group>
+                            <group string="Days">
+                                <field name="month_days" string="عدد ايام الشهر" readonly="state == 'done'"/>
+                                <field name="fridays_no" string="ايام الجمع" readonly="state == 'done'"/>
+                                <field name="finger_print_attendance_days" string="ايام الحضور من البصمة" readonly="state == 'done'"/>
+                                <field name="casual_leave" string="Day off" readonly="1"/>
+                                <field name="general_leave" string="Unpaid leave" readonly="1"/>
+                                <field name="rest_allowance" string="Sick leave" readonly="1"/>
+                                <field name="vacation" string="Vacation" readonly="1"/>
+                                <field name="days_errands" string="مأموريات ايام" readonly="1"/>
+                                <field name="paid_leave" string="أجازه مدفوعه" readonly="1" invisible="1"/>
+                                <hr style="border: 2px solid green;"/>
+                                <separator/>
+                                <field name="absence_without_permission" string="Absences" readonly="state == 'done'"/>
+                            </group>
+                        </group>
+                        <group>
+                            <div class="page">
+                                <table width="100%">
+                                    <tr class="text-center">
+                                        <th>أول مره</th>
+                                        <th>ثاني مره</th>
+                                        <th>ثالث مره</th>
+                                        <th>رابع مره</th>
+                                        <th>خامس مره</th>
+                                        <th width="20%">مجموع الجزاءات</th>
+                                        <th width="17%">اجمالى الخصومات</th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>
+                                            <field name="frist_time"/>
+                                        </th>
+                                        <th>
+                                            <field name="second_time"/>
+                                        </th>
+                                        <th>
+                                            <field name="third_time"/>
+                                        </th>
+                                        <th>
+                                            <field name="fourth_time"/>
+                                        </th>
+                                        <th>
+                                            <field name="fifth_time"/>
+                                        </th>
+                                        <th width="17%">
+                                            <field name="total_penalties"/>
+                                        </th>
+                                        <th width="17%">
+                                            <field name="total_deduction"/>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </group>
+                        <separator/>
+                        <hr style="border: 3px solid red;"/>
+                        <separator/>
+                        <group>
+                            <group string="التأخيرات">
+                                <field name="total_late_hours" string="اجمالي ساعات التأخير من البصمة"
+                                       widget="float_time" readonly="1"/>
+                                <field name="early_sign_out" string="اذن خروج" widget="float_time" readonly="1"/>
+                                <field name="late_permission" string="إذن تأخير" widget="float_time" readonly="1"/>
+                                <field name="hours_mission" string="مأموريات ساعات" widget="float_time" readonly="1"/>
+                                <field name="car_late_permission" string=" تأخير سياره" widget="float_time" readonly="1"/>
+                                <hr style="border: 2px solid green;"/>
+                                <separator/>
+                                <field name="net_late_hours_free" string="المسموح بساعات التأخير" widget="float_time" readonly="state == 'done'"/>
+                                <field name="net_late_hours" string="صافي ساعات التأخير" widget="float_time"
+                                       readonly="1"/>
+                            </group>
+                            <group string="وقت اضافى">
+                                <field name="over_time" string="اجمالي ساعات الاضافة من البصمه"
+                                       widget="float_time" readonly="1"/>
+                                <field name="rest_allowance_tlt" string="بدل الراحة" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

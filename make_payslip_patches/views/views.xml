@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="batch_payslip_form_id" model="ir.ui.view">
+            <field name="name">batch.payslip.form</field>
+            <field name="model">batch.payslip</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="generate_batches" type="object"
+                                invisible="state != 'draft'"
+                                string="Generate Batches"
+                                class="oe_highlight"/>
+                        <button name="comput_sheet" type="object"
+                                invisible="state != 'wait'"
+                                string="Compute Sheet"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="expense_button_box">
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date_from"/>
+                            </group>
+                            <group>
+                                <field name="date_to"/>
+                                <field name="struct_id" invisible="1"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="employee" string="employee">
+                                <field name="batch_ids" widget="one2many">
+                                </field>
+                                <field name="payslibs_ids" widget="one2many" invisible="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+
+                </form>
+            </field>
+        </record>
+        <record id="batch_payslip_action" model="ir.actions.act_window">
+            <field name="name">Batch Payslip</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">batch.payslip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="batch_payslip_menu" name="Batch Payslip" parent="hr_payroll.menu_hr_payroll_payslips"
+                  action="batch_payslip_action" sequence="10"/>
+        <record id="id_view_hr_payslip_tree_inherited" model="ir.ui.view">
+            <field name="name">view_hr_payslip_tree_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payslip_run_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payslip_run_id']" position="after">
+                    <field name="batch_id" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_hr_payslip_form_inherited" model="ir.ui.view">
+            <field name="name">view_hr_payslip_form_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payslip_run_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payslip_run_id']" position="after">
+                    <field name="batch_id" readonly="state == 'done'"/>
+                </xpath>
+                <xpath expr="//field[@name='has_negative_net_to_report']" position="attributes">
+                    <attribute name="readonly">state == 'done'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="readonly">state == 'done'</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_hr_payslip_search_view_inherited" model="ir.ui.view">
+            <field name="name">hr.payslip.search.view.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='group_by_batch']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payslip_run_id']" position="after">
+                    <field name="batch_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='group_by_batch']" position="after">
+                    <filter string="Batches" name="group_by_batches" context="{'group_by': 'batch_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="hr_payroll.action_view_hr_payslip_month_form" model="ir.actions.act_window">
+            <field name="context">{"search_default_group_by_batches":1}</field>
+        </record>
+    </data>
+</odoo>

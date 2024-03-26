@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        # Hr Payroll Structure Inherit-->
+        <record id="id_view_hr_employee_grade_form_inherit_add_type" model="ir.ui.view">
+            <field name="name">view_hr_employee_grade_form_inherit_add_type</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="type_structure"/>
+                </xpath>
+            </field>
+        </record>
+<!--        # Hr Payslip Inherit-->
+        <record id="id_view_hr_payslip_tree_inherit_add_net_gross_salary" model="ir.ui.view">
+            <field name="name">iview_hr_payslip_tree_inherit_add_net_gross_salary</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='basic_wage']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='basic_wage']" position="after">
+                    <field name="net_gross_salary"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_hr_contract_form_inherit" model="ir.ui.view">
+            <field name="name">hr contract view form inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name='allowance' string="Allowance">
+                        <group>
+                            <field name="incentives"/>
+                            <field name="transportation"/>
+                            <field name="other"/>
+                            <field name="housing_allowance"/>
+                            <field name="telephone_allowance"/>
+                            <field name="meal_allowance"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="net_gross_salary"/>
+                            </group>
+                            <group/>
+                        </group>
+                    </page>
+                    <page name="deduction" string="Deduction">
+                        <group>
+                            <field name="social_insurance"/>
+                            <field name="telephone"/>
+                            <field name="medical_insurance"/>
+                            <field name="c_l"/>
+                            <field name="salary_advance_customize"/>
+                            <field name="loans"/>
+                            <field name="other_deduction"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="net_salary_customize"/>
+                            </group>
+                            <group/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//group[@name='yearly_benefits']" position="inside">
+                    <field name="basic_salary_customize"/>
+                    <field name="s_charge_12"/>
+                    <field name="add_years"/>
+                </xpath>
+                <xpath expr="//field[@name='hr_responsible_id']" position="after">
+                    <field name="work_location_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

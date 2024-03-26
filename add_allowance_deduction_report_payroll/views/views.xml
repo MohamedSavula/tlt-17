@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_hr_payroll_report_view_search_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_report_view_search_inherit</field>
+            <field name="model">hr.payroll.report</field>
+            <field name="inherit_id" ref="hr_payroll.payroll_report_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="batch_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='company']" position="after">
+                    <filter string="Batches" name="group_by_batches" context="{'group_by': 'batch_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

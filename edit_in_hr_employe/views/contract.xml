@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_hr_contract_form_vview_inherit" model="ir.ui.view">
+            <field name="name">hr contract view inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='information']" position="inside">
+                    <field name="allowances_ids">
+                        <tree editable="1">
+                            <field name="a_allowance_id"/>
+                            <field name="a_code"/>
+                            <field name="a_amount" sum="Total Amount"/>
+                        </tree>
+                    </field>
+                    <field name="deduction_ids">
+                        <tree editable="1">
+                            <field name="d_deduction_id"/>
+                            <field name="d_code"/>
+                            <field name="d_amount" sum="Total Amount"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

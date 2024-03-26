@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="id_seq_employee_id" model="ir.sequence">
+            <field name="name">Employee id</field>
+            <field name="code">employee_id_seq</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="id_seq_transportation_gonna_id" model="ir.sequence">
+            <field name="name">transportation el gonna</field>
+            <field name="code">t_gonna_seq</field>
+            <field name="prefix">T.EL-Gonna/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+
+        </record>
+
+
+    </data>
+</odoo>

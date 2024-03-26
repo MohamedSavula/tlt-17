@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <data>
+        <record id="id_group_access_payslip" model="res.groups">
+            <field name="name">Access Payslip</field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="id_hr_payslip_inherit_form" model="ir.ui.view">
+            <field name="name">hr.payslip.inh</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button" position="after">
+                    <button name="back_to_draft" type="object" string="Back To Draft"
+                            invisible="state == 'draft'"
+                            groups="employee_screen.id_group_access_payslip"/>
+                </xpath>
+                <xpath expr="//page[@name='account_info']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <page name="penalities" string="Penalities"/>
+                </xpath>
+                <xpath expr="//page[@name='penalities']" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <field name="penalities_ids" widget="one2many">
+                        <tree edit="false" create="false">
+                            <field name="employee_id"/>
+                            <field name="company_id"/>
+                            <field name="date"/>
+                            <field name="computation"/>
+                            <field name="type"/>
+                            <field name="reason"/>
+                            <field name="state"/>
+                            <field name="days"/>
+                            <field name="amount" sum="Total Amount" widget="monetary" optional="show"/>
+                        </tree>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

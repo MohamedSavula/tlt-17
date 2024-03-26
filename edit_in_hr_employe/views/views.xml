@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+        <record id="id_hr_employee_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.view.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='has_work_permit']" position="after">
+                    <field name="health_certificate_date"/>
+                </xpath>
+                <xpath expr="//field[@name='job_title']" position="before">
+                    <field name="arabic_name" placeholder="Arabic Name"/>
+
+                    <br/>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="emp_code" string="Emp Id"/>
+                    <field name="outlet_id"/>
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="after">
+                    <h1>
+                        <field name="employee_id" placeholder="Employee id"/>
+                    </h1>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_hr_kanban_view_employees" model="ir.ui.view">
+            <field name="name">hr.employee.kanban.leaves.status</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_record_headings')]" position="inside">
+                    <field name="arabic_name"/>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='work_email']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="id_hr_employee_group_by" model="ir.ui.view">
+            <field name="name">hr employee.search.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                      <filter string="Outlet" name="outlet" context="{'group_by':'outlet_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

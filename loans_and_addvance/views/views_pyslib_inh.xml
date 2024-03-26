@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="id_hr_payslip_inherit_form" model="ir.ui.view">
+            <field name="name">hr.payslip.inh</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Loans" name="loans">
+                        <field name="loans_line_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group/>
+                            <group>
+                                <field name="loans" string="Total Loans"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Salary Advance" name="salary_advance">
+                        <field name="salary_advance_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="deduction_date"/>
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group/>
+                            <group>
+                                <field name="salary_advance" string="Total Salary Advance"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="CL" name="cl_salary_advance">
+                        <field name="cl_salary_advance_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="deduction_date"/>
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group/>
+                            <group>
+                                <field name="cl_salary_advance" string="Total CL" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        inherit journal-->
+        <!-- Inherit Form View to Modify it -->
+        <record id="id_account_journal_inherit_form" model="ir.ui.view">
+            <field name="name">id account journal inherit form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="is_loan"/>
+                    <field name="is_salary_advance"/>
+                    <field name="is_cl_salary_advance"/>
+                    <field name="account_ids"
+                           invisible="is_loan != True and is_salary_advance != True and is_cl_salary_advance != True"
+                           required="is_loan == True or is_salary_advance == True or is_cl_salary_advance == True"/>
+                    <field name="account_idd"
+                           invisible="is_loan != True and is_salary_advance != True and is_cl_salary_advance != True"
+                           required="is_loan == True or is_salary_advance == True or is_cl_salary_advance == True"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

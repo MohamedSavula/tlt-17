@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_penalities,penalities,model_penalities,,1,1,1,1
+access_penality_group,penality.group,model_penality_group,,1,1,1,1
+access_penality_sub,penality.sub,model_penality_sub,,1,1,1,1
+

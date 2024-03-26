@@ -1,0 +1,198 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <data>
+        <record id="id_salary_advance_view_tree" model="ir.ui.view">
+            <field name="name">salary.advance.view.tree</field>
+            <field name="model">salary.advance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="department_id"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="id_salary_advance_view_form" model="ir.ui.view">
+            <field name="name">salary.advance.view.form</field>
+            <field name="model">salary.advance</field>
+            <field name="arch" type="xml">
+                <form string="salary advance">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="validate_action" type="object" string="Validate" class="oe_highlight"
+                                invisible="state != 'draft'"/>
+                        <button name="close" type="object" string="Close"
+                                invisible="state != 'confirmed'"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title mb8">
+                            <h1 class="o_row">
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="journal_entry_id" invisible="1"/>
+                                <field name="employee_id"/>
+                                <field name="company_id"/>
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="reason"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="deduction_date"/>
+                                <field name="journal_id" required="state == 'validate'"/>
+                                <field name="account_id" required="state == 'validate'"/>
+                                <field name="account_idd" required="state == 'validate'"/>
+                                <field name="journal_entry_id" invisible="journal_entry_id == False"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="id_salary_advance_view_search" model="ir.ui.view">
+            <field name="name">salary.advance.view.search</field>
+            <field name="model">salary.advance</field>
+            <field name="arch" type="xml">
+                <search string="Search salary.advance">
+                    <field name="state"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="amount"/>
+                    <field name="department_id"/>
+                    <field name="journal_id"/>
+                    <field name="account_id"/>
+                    <field name="account_idd"/>
+                    <filter name="company_id" string="Company" context="{'group_by':'company_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="id_salary_advance_view_action" model="ir.actions.act_window">
+            <field name="name">salary advance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">salary.advance</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+
+        <menuitem id="menu_salary_advance__action_categ" name="Salary Advance" parent="menu_loans__action"
+                  action="id_salary_advance_view_action" sequence="1"/>
+
+        <!--        # cl.salary.advance-->
+        <record id="id_cl_salary_advance_view_tree" model="ir.ui.view">
+            <field name="name">cl.salary.advance.view.tree</field>
+            <field name="model">cl.salary.advance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="department_id"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="id_cl_salary_advance_view_form" model="ir.ui.view">
+            <field name="name">cl.salary.advance.view.form</field>
+            <field name="model">cl.salary.advance</field>
+            <field name="arch" type="xml">
+                <form string="salary advance">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="validate_action" type="object" string="Validate" class="oe_highlight"
+                                invisible="state != 'draft'"
+                                groups="hr.group_hr_user"/>
+                        <button name="close" type="object" string="Close"
+                                class="oe_highlight" invisible="state != 'confirmed'"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title mb8">
+                            <h1 class="o_row">
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="journal_entry_id" invisible="1"/>
+                                <field name="employee_id"/>
+                                <field name="company_id"/>
+                                <field name="department_id"/>
+                                <field name="amount"/>
+                                <field name="reason"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="deduction_date"/>
+                                <field name="journal_id" required="state == 'validate'"/>
+                                <field name="account_id" required="state == 'validate'"/>
+                                <field name="account_idd" required="state == 'validate'"/>
+                                <field name="journal_entry_id" invisible="journal_entry_id == False"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="id_cl_salary_advance_view_search" model="ir.ui.view">
+            <field name="name">cl.salary.advance.view.search</field>
+            <field name="model">cl.salary.advance</field>
+            <field name="arch" type="xml">
+                <search string="Search salary.advance">
+                    <field name="state"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="amount"/>
+                    <field name="department_id"/>
+                    <field name="journal_id"/>
+                    <field name="account_id"/>
+                    <field name="account_idd"/>
+                    <filter name="company_id" string="Company" context="{'group_by':'company_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="id_cl_salary_advance_view_action" model="ir.actions.act_window">
+            <field name="name">CL</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cl.salary.advance</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+
+        <menuitem id="menu_cl_salary_advance_menu_main" name="CL"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_cl_salary_advance_menu" name="CL" parent="menu_cl_salary_advance_menu_main"
+                  action="id_cl_salary_advance_view_action" sequence="1"/>
+    </data>
+
+</odoo>

@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_outlet,access_outlet,model_outlet,base.group_user,1,1,1,1
+access_allowances,access_allowances,model_allowances,base.group_user,1,1,1,1
+access_deduction,access_deduction,model_deduction,base.group_user,1,1,1,1
+access_allowances_move,access_allowances_move,model_allowances_move,base.group_user,1,1,1,1
+access_deduction_move,access_deduction_move,model_deduction_move,base.group_user,1,1,1,1
+access_transportation_gonna,access_transportation_gonna,model_transportation_gonna,base.group_user,1,1,1,1
+
+
+
+
+

@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <data>
+        <record id="id_loans_view_tree" model="ir.ui.view">
+            <field name="name">loans.view.tree</field>
+            <field name="model">loans</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="company_id"/>
+                    <field name="department_id"/>
+                    <field name="amount"/>
+                    <field name="no_of_installment"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="id_loans_view_form" model="ir.ui.view">
+            <field name="name">loans.view.form</field>
+            <field name="model">loans</field>
+            <field name="arch" type="xml">
+                <form string="loans">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="compute_installment" type="object" string="Compute Installment"
+                                class="oe_highlight" 
+                                invisible="state in ['confirmed']"/>
+                        <button name="validate_action" type="object" string="Validate" class="oe_highlight"
+                                invisible="state != 'draft'"
+                                groups="hr.group_hr_user"/>
+                        <button name="close" type="object" string="Close"
+                                class="oe_highlight" 
+                                invisible="state != 'confirmed'"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title mb8">
+                            <h1 class="o_row">
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="journal_entry_id" invisible="1"/>
+                                <field name="employee_id"/>
+                                <field name="company_id"/>
+                                <field name="amount"/>
+                                <field name="no_of_installment"/>
+                                <field name="journal_id" required="state == 'validate'"/>
+                            </group>
+                            <group>
+                                <field name="department_id"/>
+                                <field name="date"/>
+                                <label for="deduction_date"/>
+                                <dev>
+                                    <field name="deduction_date"/>
+                                    <button name="update_deduction_date" type="object" string="Update Date" class="oe_highlight"/>
+                                </dev>
+                                <field name="account_id" required="state == 'validate'"/>
+                                <field name="account_idd" required="state == 'validate'"/>
+                                <field name="journal_entry_id"
+                                       invisible="journal_entry_id == False"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Installment" name="installment">
+                                <field name="loans_ids" widget="one2many">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="id_loans_view_search" model="ir.ui.view">
+            <field name="name">loans.view.search</field>
+            <field name="model">loans</field>
+            <field name="arch" type="xml">
+                <search string="Search loans">
+                    <field name="state"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="deduction_date"/>
+                    <field name="employee_id"/>
+                    <field name="amount"/>
+                    <field name="no_of_installment"/>
+                    <field name="department_id"/>
+                    <field name="journal_id"/>
+                    <field name="account_id"/>
+                    <field name="account_idd"/>
+                    <filter name="company_id" string="Company" context="{'group_by':'company_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="id_loans_view_action" model="ir.actions.act_window">
+            <field name="name">loans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">loans</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem
+                id="menu_loans__action"
+                sequence="10"
+                parent="hr.menu_hr_root"
+                name="Loans And Advances"
+        />
+        <menuitem id="menu_loans__action_categ" name="loans" parent="menu_loans__action"
+                  action="id_loans_view_action" sequence="1"/>
+
+    </data>
+
+</odoo>

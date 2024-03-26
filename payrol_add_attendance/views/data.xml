@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_casual_leave" model="hr.leave.type">
+            <field name="name">Unpaid leave</field>
+
+        </record>
+        <record id="id_general_leave" model="hr.leave.type">
+            <field name="name">Vacation</field>
+
+        </record>
+        <record id="id_rest_allowance" model="hr.leave.type">
+            <field name="name">Sick leave</field>
+
+        </record>
+        <record id="id_paid_leave" model="hr.leave.type">
+            <field name="name">Day off</field>
+
+        </record>
+
+        <record id="id_late_permission" model="hr.leave.type">
+            <field name="name">إذن تأخير</field>
+
+        </record>
+        <record id="id_hours_mission" model="hr.leave.type">
+            <field name="name">مأموريات ساعات</field>
+
+        </record>
+        <record id="id_days_errands" model="hr.leave.type">
+            <field name="name">مأموريات ايام</field>
+        </record>
+        <record id="id_car_late_permission" model="hr.leave.type">
+            <field name="name">تأخير سياره</field>
+
+        </record>
+        <record id="id_early_sign_out" model="hr.leave.type">
+            <field name="name">اذن خروج</field>
+        </record>
+        <record id="id_rest_allowance_tlt" model="hr.leave.type">
+            <field name="name">بدل الراحة</field>
+        </record>
+    </data>
+</odoo>

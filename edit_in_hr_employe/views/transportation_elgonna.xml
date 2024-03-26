@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+        <record id="id_new_form_view_transportation_elgonna" model="ir.ui.view">
+            <field name="name">transportation elgonna</field>
+            <field name="model">transportation.gonna</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="states" widget="statusbar"/>
+                        <button name="confirm_action" type="object" string="Confirm"
+                                invisible="states != 'draft'"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title mb8">
+                            <h1 class="o_row">
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="amount"/>
+                                <field name="reason"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="payment_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="id_new_tree_view_transportation_elgonna" model="ir.ui.view">
+            <field name="name">transportation elgonna</field>
+            <field name="model">transportation.gonna</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="payment_date"/>
+                    <field name="amount"/>
+                    <field name="reason"/>
+                </tree>
+            </field>
+        </record>
+        <record id="id_new_action_view_transportation_elgonna" model="ir.actions.act_window">
+            <field name="name">Transportation EL-Gonna</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transportation.gonna</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+
+
+        <record id="id_hr_payslip_inherit_form_new" model="ir.ui.view">
+            <field name="name">hr.payslip.inh</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="T EL-Gonna" name="transportation_el_gonna">
+                        <field name="transportation_el_gonna_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="payment_date" width="35%"/>
+                                <field name="employee_id" width="35%"/>
+                                <field name="amount" width="30%"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group>
+
+                            </group>
+                            <group>
+                                <field name="salary_transportation" string="Total salary Transportation"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+        <menuitem id="id_new_menu_item_view_transportation_elgonna" name="Transportation EL-Gonna"
+                  parent="hr.menu_hr_root"
+                  action="id_new_action_view_transportation_elgonna" sequence="10"/>
+
+
+    </data>
+</odoo>

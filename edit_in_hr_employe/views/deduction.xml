@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_deduction_view_form_a" model="ir.ui.view">
+            <field name="name">deduction</field>
+            <field name="model">deduction</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <h1>
+                                <field name="name" placeholder="deduction"/>
+                            </h1>
+                            <group>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="id_deduction_view_form_action" model="ir.actions.act_window">
+            <field name="name">deductions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deduction</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_uniq_menu_item_deduction" name="Deductions" parent="hr.menu_human_resources_configuration"
+                  action="id_deduction_view_form_action" sequence="7"/>
+
+
+    </data>
+</odoo>

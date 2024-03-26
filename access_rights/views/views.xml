@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_group_return_inventory" model="res.groups">
+            <field name="name">Return Receipts</field>
+        </record>
+        <record id="id_view_picking_form_view_inherit_edit_attributes" model="ir.ui.view">
+            <field name="name">view_picking_form_view_inherit_edit_attributes</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(stock.act_stock_return_picking)d']" position="attributes">
+                    <attribute name="groups">access_rights.id_group_return_inventory</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_group_access_rights_purchase" model="res.groups">
+            <field name="name">Access Edit Purchase</field>
+        </record>
+        <record id="id_purchase_order_form_inherit_edit_attributes_group" model="ir.ui.view">
+            <field name="name">purchase_order_form_inherit_edit_attributes</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="groups_id" eval="[(4, ref('access_rights.id_group_access_rights_purchase'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_purchase_order_form_inherit_edit_attributes_not_group" model="ir.ui.view">
+            <field name="name">purchase_order_form_inherit_edit_attributes</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="readonly">state == 'purchase'</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_cancel']" position="attributes">
+                    <attribute name="groups">access_rights.id_group_access_rights_purchase</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_done']" position="attributes">
+                    <attribute name="groups">access_rights.id_group_access_rights_purchase</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_group_access_rights_account_move" model="res.groups">
+            <field name="name">Access Bill/Invoice</field>
+        </record>
+        <record id="id_view_move_form_inherit_edit_attributes" model="ir.ui.view">
+            <field name="name">view_move_form_inherit_edit_attributes</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_draft']" position="attributes">
+                    <attribute name="groups">access_rights.id_group_access_rights_account_move</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_reverse']" position="attributes">
+                    <attribute name="groups">access_rights.id_group_access_rights_account_move</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
