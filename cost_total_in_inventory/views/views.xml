@@ -1,0 +1,167 @@
+<odoo>
+    <data>
+        <record id="action_validate_picking" model="ir.actions.server">
+            <field name="name">Cancel</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    res = records.action_cancel()
+            </field>
+        </record>
+        <record id="id_view_form_view_inh" model="ir.ui.view">
+            <field name="name">stock picking form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree"
+                       position="inside">
+                    <field name="price_unit" string="Cost" optional="hide"/>
+                    <field name="price_subtotal" string="Total Cost" sum="Total"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_packaging_id']"
+                       position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+<!--                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='reserved_availability']"-->
+<!--                       position="attributes">-->
+<!--                    <attribute name="optional">hide</attribute>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+        <record id="id_view_stock_move_line_detailed_operation_tree_inherited" model="ir.ui.view">
+            <field name="name">view stock move line detailed operation tree inherited</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="price_unit" string="Cost"/>
+                    <field name="price_subtotal" string="Total Cost"/>
+                </xpath>
+            </field>
+        </record>
+        <template id="id_stock_report_picking_operations" inherit_id="stock.report_picking">
+            <xpath expr="//th[@name='th_from']" position="before">
+                <th>
+                    <strong>Cost</strong>
+                </th>
+                <th>
+                    <strong>Total cost</strong>
+                </th>
+            </xpath>
+            <xpath expr="//td[@groups='stock.group_stock_multi_locations']" position="before">
+                <td>
+                    <span t-esc="round(ml.price_unit,3)"/>
+                </td>
+                <td>
+                    <span t-esc="round(ml.price_subtotal,3)"/>
+                </td>
+            </xpath>
+        </template>
+        <template id="id_stock_report_delivery_document_inherit_mrp" inherit_id="stock.report_delivery_document">
+            <xpath expr="//div[hasclass('mb32')]" position="after">
+                <br/>
+                <div class="row mt32 mb32">
+                    <div class="col-auto">
+                        <strong>Source Location:</strong>
+                        <p t-field="o.location_id.display_name"/>
+                    </div>
+                    <div class="col-auto">
+                        <strong>Destination Location:</strong>
+                        <p t-field="o.location_dest_id.display_name"/>
+                    </div>
+                </div>
+                <br/>
+            </xpath>
+            <xpath expr="//div[@name='div_sched_date']" position="after">
+                <div t-if="o.origin" class="col-auto" name="div_origin">
+                    <strong>Validate by:</strong>
+                    <p t-field="o.validate_by_id.name"/>
+                </div>
+            </xpath>
+            <xpath expr="//th[@name='th_sm_quantity']" position="before">
+                <th name="th_sml_price">
+                    <strong>Cost</strong>
+                </th>
+            </xpath>
+            <xpath expr="//th[@name='th_sm_quantity']" position="after">
+                <th name="th_sml_subtotal">
+                    <strong>Total cost</strong>
+                </th>
+            </xpath>
+            <xpath expr="//th[@name='th_sml_quantity']" position="before">
+                <th>
+                    <strong>Cost</strong>
+                </th>
+            </xpath>
+            <xpath expr="//th[@name='th_sml_quantity']" position="after">
+                <th>
+                    <strong>Total cost</strong>
+                </th>
+            </xpath>
+            <xpath expr="//tr[@t-foreach='lines']/td[2]" position="after">
+                <td>
+                    <span t-esc="round(move.price_unit,3)"/>
+                </td>
+            </xpath>
+            <xpath expr="//tr[@t-foreach='lines']/td[4]" position="after">
+                <td>
+                    <span t-esc="round(move.price_subtotal,3)"/>
+                </td>
+            </xpath>
+            <xpath expr="//div[hasclass('page')]" position="inside">
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    <strong>grand total</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.subtotal_operation"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//tr[@t-as='move']" position="attributes">
+                <attribute name="t-if">move.quantity_done</attribute>
+            </xpath>
+        </template>
+        <template id="id_stock_report_delivery_aggregated_move_lines_inherit"
+                  inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+            <xpath expr="//tr[@t-as='line']" position="attributes">
+                <attribute name="t-if">aggregated_lines[line]['qty_done']</attribute>
+            </xpath>
+        </template>
+        <template id="id_stock_report_delivery_aggregated_move_lines"
+                  inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+            <xpath expr="//td[@name='move_line_aggregated_quantity']" position="before">
+                <td class="text-center" name="move_line_lot_qty_done">
+                    <span t-esc="aggregated_lines[line]['price_unit']"/>
+                </td>
+            </xpath>
+            <xpath expr="//td[@name='move_line_aggregated_quantity']" position="after">
+                <td class="text-center" name="move_line_lot_qty_done">
+                    <span t-esc="aggregated_lines[line]['price_subtotal']"/>
+                </td>
+            </xpath>
+        </template>
+
+        <record id="view_move_line_tree_detailed_wave" model="ir.ui.view">
+            <field name="name">stock_picking_wave.move.line.tree.wave</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="price_unit" string="Cost"/>
+                    <field name="price_subtotal" string="Total Cost" sum="Total"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

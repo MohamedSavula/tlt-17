@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attendance_treatment_user,attendance.treatment.user,model_attendance_treatment,hr.group_hr_user,1,1,1,1
+access_wizard_treatment_user,wizard.treatment.user,model_wizard_treatment,hr.group_hr_user,1,1,1,1
+access_log_correlation,access_log_correlation,model_log_correlation,base.group_user,1,1,1,1
+access_log_correlation_shift,access_log_correlation_shift,model_log_correlation_shift,base.group_user,1,1,1,1
+access_upload_sheet_attendance,access_upload_sheet_attendance,model_upload_sheet_attendance,base.group_user,1,1,1,1
+

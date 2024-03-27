@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="id_stock_picking_kanban_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="purchase_template_id"/>
+                </xpath>
+                <xpath expr="//div[hasclass('o_kanban_record_headings')]" position="inside">
+                    <br/>
+                    <strong class="o_kanban_record_title">
+                        <span>
+                            <t t-esc="record.purchase_template_id.value"/>
+                        </span>
+                    </strong>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_group_purchase_template_tree" model="res.groups">
+            <field name="name">Purchase template tree</field>
+        </record>
+        <record id="id_group_purchase_requisition" model="res.groups">
+            <field name="name">Requisitions</field>
+        </record>
+        <menuitem id="menu_purchase_requisition_mean" name="Requisitions"/>
+        <menuitem id="menu_purchase_requisition_pro_mgt" sequence="1"
+                  parent="purchase_agreements_template.menu_purchase_requisition_mean"
+                  action="purchase_requisition.action_purchase_requisition" groups="id_group_purchase_requisition"/>
+        <record id="id_view_picking_form_view_inherit" model="ir.ui.view">
+            <field name="name">stock picking form inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="user_id"/>
+                    <field name="purchase_template_id"/>
+                    <field name="is_outlet_receive"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="open_barcode" string="Open Barcode" type="object" class="oe_stat_button"
+                            icon="fa-list"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                    <field name="qty_on_hand_location"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_purchase_template_line_tree" model="ir.ui.view">
+            <field name="name">purchase.template.line.tree</field>
+            <field name="model">purchase.template.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="purchase_template_line_id"/>
+                    <field name="product_id"/>
+                    <field name="description"/>
+                    <field name="categ_id"/>
+                    <field name="product_uom_id"/>
+                    <field name="product_qty"/>
+                    <field name="price_unit"/>
+                </tree>
+            </field>
+        </record>
+        <record id="id_purchase_template_line_action" model="ir.actions.act_window">
+            <field name="name">Purchase template line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.template.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_purchase_template_line_menu" parent="purchase.menu_purchase_config"
+                  action="id_purchase_template_line_action"
+                  groups="id_group_purchase_template_tree"
+                  sequence="2"/>
+        <record id="id_view_purchase_requisition_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.requisition.tree.inherit</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="purchase_template_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_purchase_requisition_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.requisition.form.inherit</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="is_transfer_approve" invisible="1"/>
+                    <field name="transfer_id" invisible="1"/>
+                    <button name="transfer_approve" type="object" string="Transfer Approve" class="btn-primary"
+                            invisible="state != 'open' or is_transfer_approve != False"/>
+                    <button name="create_transfer" type="object" string="Create Transfer" class="btn-primary"
+                            invisible="is_transfer_approve != True or transfer_id != False"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="show_transfer" type="object" class="oe_stat_button" icon="fa-list-alt"
+                            invisible="transfer_id == False">
+                        <h9>Internal Transfer</h9>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='vendor_id']" position="after">
+                    <field name="purchase_template_id"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']" position="attributes">
+                    <attribute name="widget">section_and_note_one2many</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                    <control>
+                        <create name="add_line_control" string="Add a line"/>
+                        <create name="add_section_control" string="Add a section"
+                                context="{'default_display_type': 'line_section'}"/>
+                        <create name="add_note_control" string="Add a note"
+                                context="{'default_display_type': 'line_note'}"/>
+                    </control>
+                    <field name="display_type" invisible="1"/>
+                    <field name="sequence" widget="handle"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                    <field name="name" widget="section_and_note_text"
+                           required="display_type in ['line_section','line_note']"
+                           string="Note"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="required">display_type == False</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_purchase_template_tree" model="ir.ui.view">
+            <field name="name">purchase.template.tree</field>
+            <field name="model">purchase.template</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Template Tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="id_purchase_template_form" model="ir.ui.view">
+            <field name="name">purchase.template.form</field>
+            <field name="model">purchase.template</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Template Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="is_send_email"/>
+                                <field name="user_email_ids" widget="many2many_tags" options="{'no_create': True}"
+                                       invisible="is_send_email == False"/>
+                            </group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="user_id" widget="many2many_tags" options="{'no_create': True}"/>
+                                <field name="location_dest_id" options="{'no_create': True}"/>
+                                <field name="source_location_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Purchase Template Line">
+                                <field name="purchase_template_line_ids" widget="section_and_note_one2many">
+                                    <tree string="Products" editable="bottom">
+                                        <control>
+                                            <create name="add_line_control" string="Add a line"/>
+                                            <create name="add_section_control" string="Add a section"
+                                                    context="{'default_display_type': 'line_section'}"/>
+                                            <create name="add_note_control" string="Add a note"
+                                                    context="{'default_display_type': 'line_note'}"/>
+                                        </control>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id" required="display_type == False"/>
+                                        <field name="description"/>
+                                        <field name="categ_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_ordered" optional="show"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show"
+                                               required="product_id != False"/>
+                                        <field name="schedule_date" optional="hide"/>
+                                        <field name="account_analytic_id" optional="hide"
+                                               groups="analytic.group_analytic_accounting"/>
+                                        <field name="analytic_tag_ids" optional="hide"
+                                               widget="many2many_tags"/>
+                                        <field name="price_unit"/>
+                                        <field name="name" widget="section_and_note_text"
+                                               required="display_type in ['line_section','line_note']"
+                                               string="Note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="id_purchase_template_search" model="ir.ui.view">
+            <field name="name">purchase.template.search</field>
+            <field name="model">purchase.template</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Template Search">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="id_purchase_template_action" model="ir.actions.act_window">
+            <field name="name">Purchase Template</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_purchase_template_menu" name="Purchase Template" parent="purchase.menu_purchase_config"
+                  action="id_purchase_template_action"
+                  sequence="1"/>
+    </data>
+</odoo>

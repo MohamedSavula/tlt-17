@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_log_correlation_tree" model="ir.ui.view">
+            <field name="name">log correlation</field>
+            <field name="model">log.correlation</field>
+            <field name="arch" type="xml">
+                <tree string="Log Correlation Tree">
+                    <field name="modified_date"/>
+                    <field name="employee_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </tree>
+            </field>
+        </record>
+        <record id="id_log_correlation_form" model="ir.ui.view">
+            <field name="name">log correlation</field>
+            <field name="model">log.correlation</field>
+            <field name="arch" type="xml">
+                <form string="Log Correlation Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="modified_date"/>
+                            </group>
+                            <group>
+                                <field name="employee_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="date_from"/>
+                            </group>
+                            <group>
+                                <field name="date_to"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Line Attendance" name="statement_line_ids">
+                                <field name="attendance_line_ids">
+                                    <tree editable="top" string="Line Attendances">
+                                        <field name="employee_id"/>
+                                        <field name="check_in"/>
+                                        <field name="check_out"/>
+                                        <field name="date_from" force_save="1"/>
+                                        <field name="date_to" force_save="1"/>
+                                        <field name="hour_from" force_save="1"/>
+                                        <field name="hour_to" force_save="1"/>
+                                        <field name="worked_hours"/>
+                                        <field name="late" widget="float_time" force_save="1"/>
+                                        <field name="over_time" widget="float_time" force_save="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="id_log_correlation_search" model="ir.ui.view">
+            <field name="name">log correlation</field>
+            <field name="model">log.correlation</field>
+            <field name="arch" type="xml">
+                <search string="Log Correlation Search">
+                    <field name="modified_date"/>
+                    <field name="employee_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </search>
+            </field>
+        </record>
+        <record id="id_log_correlation_action" model="ir.actions.act_window">
+            <field name="name">log correlation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">log.correlation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="id_log_correlation_menu" name="Log Correlation"
+                  parent="menu_hr_attendance_manage_attendances"
+                  action="id_log_correlation_action"
+                  sequence="10"/>
+    </data>
+</odoo>

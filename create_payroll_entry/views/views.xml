@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="batch_payslip_form_id_inherit" model="ir.ui.view">
+            <field name="name">batch_payslip_form_id_inherit</field>
+            <field name="model">batch.payslip</field>
+            <field name="inherit_id" ref="make_payslip_patches.batch_payslip_form_id"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="create_entry" type="object"
+                            invisible="state not in ['done','closed']"
+                            string="Create Entry"
+                            class="btn-primary"/>
+                </xpath>
+                <xpath expr="//div[@name='expense_button_box']" position="inside">
+                    <field name="entry_ids" invisible="1"/>
+                    <button name="open_entry"
+                            type="object"
+                            class="oe_stat_button"
+                            invisible="state not in ['done', 'closed']"
+                            icon="fa-list">
+                        Entries
+                    </button>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_hr_work_location_form_view_inherit_analytic" model="ir.ui.view">
+            <field name="name">hr_work_location_form_view_inherit_analytic</field>
+            <field name="model">hr.work.location</field>
+            <field name="inherit_id" ref="hr.hr_work_location_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="analytic_account_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

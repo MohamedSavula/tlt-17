@@ -1,0 +1,54 @@
+<odoo>
+  <data>
+<!--      tree view for wizard.treatment-->
+     <record model="ir.ui.view" id="wizard_treatment_tree_view">
+      <field name="name">wizard.treatment.tree.view</field>
+      <field name="model">wizard.treatment</field>
+          <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </tree>
+          </field>
+      </record>
+
+      <!--      form view for wizard.treatment-->
+    <record model="ir.ui.view" id="wizard_treatment_form_view">
+      <field name="name">wizard.treatment.form.view</field>
+      <field name="model">wizard.treatment</field>
+      <field name="arch" type="xml">
+        <form string="wizard Treatment">
+            <header>
+                <field name="is_do_treatment" invisible="1"/>
+                <button class="oe_stat_button" name="do_treatment_2" string="Treatment" type="object"
+                        invisible="is_do_treatment == True"/>
+            </header>
+            <sheet>
+                  <group>
+                      <field name="name"/>
+                  </group>
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                    </group>
+                    <group>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+      <record model="ir.actions.act_window" id="wizard_treatment_form_view_action">
+          <field name="name">wizard Treatment</field>
+          <field name="res_model">wizard.treatment</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+      <menuitem id="wizard_treatment_menu" name="wizard Treatment"
+                parent="menu_hr_attendance_manage_attendances" action="wizard_treatment_form_view_action"/>
+  </data>
+</odoo>

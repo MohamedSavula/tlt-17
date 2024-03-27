@@ -1,0 +1,99 @@
+<odoo>
+    <data>
+        <!--      tree view for attendance.treatment-->
+        <record model="ir.ui.view" id="attendance_treatment_tree_view">
+            <field name="name">attendance.treatment.tree.view</field>
+            <field name="model">attendance.treatment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <field name="machine_ip" readonly="1"/>
+                    <field name="name_machine" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--      form view for attendance.treatment-->
+        <record model="ir.ui.view" id="attendance_treatment_form_view">
+            <field name="name">attendance.treatment.form.view</field>
+            <field name="model">attendance.treatment</field>
+            <field name="arch" type="xml">
+                <form string="Attendance Treatment">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="check_in"/>
+                                <field name="check_out"/>
+                                <field name="from_date"/>
+                                <field name="to_date"/>
+                                <field name="machine_ip" readonly="1"/>
+                                <field name="name_machine" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="attendance_treatment_search_view" model="ir.ui.view">
+            <field name="name">attendance.treatment.search.view</field>
+            <field name="model">attendance.treatment</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="employee_id"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="attendance_treatment_form_view_action">
+            <field name="name">Attendance Treatment</field>
+            <field name="res_model">attendance.treatment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_hr_attendance_manage_attendances" name="Manager"
+                  parent="hr_attendance.menu_hr_attendance_root" sequence="3"/>
+        <menuitem id="attendance_treatment_menu" name="Attendance Treatment"
+                  parent="menu_hr_attendance_manage_attendances"
+                  action="attendance_treatment_form_view_action"/>
+        <record id="id_upload_sheet_attendance_form" model="ir.ui.view">
+            <field name="name">Upload Sheet Attendance</field>
+            <field name="model">upload.sheet.attendance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <label for="lot_sheet_id" class="oe_inline text-left"/>
+                            <div class="o_row no-gutters d-flex">
+                                <field name="lot_sheet_id" widget="many2many_binary" class="oe_inline text-left"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="machine_ip"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_data" string="OK" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="id_upload_sheet_attendance_action">
+            <field name="name">Upload Sheet Attendance</field>
+            <field name="res_model">upload.sheet.attendance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="id_upload_sheet_attendance_menu"
+                  parent="menu_hr_attendance_manage_attendances"
+                  action="id_upload_sheet_attendance_action" sequence="1"/>
+    </data>
+</odoo>
