@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_field_in_purchase_agreements_field_in_purchase_agreements,field_in_purchase_agreements.field_in_purchase_agreements,model_field_in_purchase_agreements_field_in_purchase_agreements,base.group_user,1,1,1,1

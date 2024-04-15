@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_payroll_hr_employee_view_form_inherit_add_field_bank_or_cash" model="ir.ui.view">
+            <field name="name">payroll_hr_employee_view_form.inherit.add.field.bank_or_cash</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_payroll.payroll_hr_employee_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='registration_number']" position="after">
+                    <field name="bank_or_cash"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_hr_payslip_form_inherit_add_field_bank_or_cash" model="ir.ui.view">
+            <field name="name">hr.payslip.view.form.inherit.add.field.bank_or_cash</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="inside">
+                    <field name="bank_or_cash"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_hr_payslip_tree_inherit_add_field_bank_or_cash" model="ir.ui.view">
+            <field name="name">hr.payslip.view.tree.inherit.add.field.bank_or_cash</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="bank_or_cash"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

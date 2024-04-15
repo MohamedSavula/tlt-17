@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_project_type_action" model="ir.actions.act_window">
+            <field name="name">Project Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_project_type_menu" parent="project.menu_project_config" action="id_project_type_action"
+                  sequence="100"/>
+
+        <record id="id_project_location_action" model="ir.actions.act_window">
+            <field name="name">Project Location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <menuitem id="id_project_location_menu" parent="project.menu_project_config" action="id_project_location_action"
+                  sequence="101"/>
+
+        <record id="id_project_project_form_view_inherit" model="ir.ui.view">
+            <field name="name">project_project_form_view_inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="project_type_id"/>
+                    <field name="project_location_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

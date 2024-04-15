@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_requisition.action_report_purchase_requisitions" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+        <record id="id_action_report_purchase_requisitions" model="ir.actions.report">
+            <field name="name">Call for Tenders</field>
+            <field name="model">purchase.requisition</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">field_in_purchase_agreements.id_report_purchaserequisitions</field>
+            <field name="report_file">field_in_purchase_agreements.id_report.report_purchaserequisitions</field>
+            <field name="print_report_name">'Tender - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="purchase_requisition.model_purchase_requisition"/>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="id_report_purchaserequisitions">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <h2>
+                                <span t-out="o.type_id.name"/>
+                                <span t-field="o.name"/>
+                            </h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Purchase Representative:</strong>
+                                    <br/>
+                                    <span t-field="o.user_id.name"/>
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Purchase Template:</strong>
+                                    <br/>
+                                    <span t-field="o.purchase_template_id.name"/>
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Source Location:</strong>
+                                    <br/>
+                                    <span t-field="o.location_id.display_name"/>
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Destination Location:</strong>
+                                    <br/>
+                                    <span t-field="o.location_dest_id.display_name"/>
+                                </div>
+                                <div class="col-auto mw-100 mb-2">
+                                    <strong>Operation Type:</strong>
+                                    <br/>
+                                    <span t-field="o.picking_type_id.display_name"/>
+                                </div>
+                            </div>
+                            <t t-if="o.line_ids">
+                                <h3>Products</h3>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong>Product</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Cost</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Qty</strong>
+                                            </th>
+                                            <th class="text-center" groups="uom.group_uom">
+                                                <strong>Product UoM</strong>
+                                            </th>
+                                            <th t-if="o.type_id == env.ref('purchase_requisition.type_single')">Price
+                                                Unit
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Total Cost</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.line_ids" t-as="line_ids">
+                                            <t t-if="line_ids.product_qty &gt; 0">
+                                                <td>
+                                                    [
+                                                    <span t-field="line_ids.product_id.code"/>
+                                                    ]
+                                                    <span t-field="line_ids.product_id.name"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line_ids.cost_product"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line_ids.product_qty"/>
+                                                </td>
+                                                <t>
+                                                    <td class="text-center" groups="uom.group_uom">
+                                                        <span t-field="line_ids.product_uom_id.name"/>
+                                                    </td>
+                                                </t>
+                                                <td t-if="o.type_id == env.ref('purchase_requisition.type_single')">
+                                                    <span t-field="line_ids.price_unit"
+                                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="line_ids.total_cost"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-if="o.purchase_ids">
+                                <h3>Requests for Quotation Details</h3>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong>Vendor</strong>
+                                            </th>
+                                            <th>
+                                                <strong>Date</strong>
+                                            </th>
+                                            <th class="text-right">
+                                                <strong>Reference</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.purchase_ids" t-as="purchase_ids">
+                                            <td>
+                                                <span t-field="purchase_ids.partner_id.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="purchase_ids.date_order"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="purchase_ids.name"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <table width="100%">
+                                <tr>
+                                    <td width="60%" class="text-left"/>
+                                    <td width="30%" style="border-top: 1px solid black;">
+                                        Total
+                                    </td>
+                                    <td width="10%" class="text-right" style="border-top: 1px solid black;">
+                                        <span t-field="o.total_cost"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div t-if="o.description" t-out="o.description"/>
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

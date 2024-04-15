@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <record id="id_group_validated_agreements" model="res.groups">
+            <field name="name">Validated Agreements</field>
+        </record>
+        <record id="id_product_template_form_view_inherit_add_vendor" model="ir.ui.view">
+            <field name="name">product product form add vendor</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='supplier_taxes_id']" position="before">
+                    <field name="vendor_id" domain="[('supplier_rank','&gt;', 0)]"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_form_view_inherit_purchase_requisition_ah" model="ir.ui.view">
+            <field name="name">purchase requisition</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vendor_id']" position="after">
+                    <field name="internal_location_id" string="internal Store" invisible="1"/>
+                    <field name="is_received" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='action_done']" position="attributes">
+                    <attribute name="groups">edit_purchase_order.id_group_po_approved</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="vendor_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_qty']" position="before">
+                    <field name="on_hand"/>
+                    <field name="cost_product"/>
+                    <field name="rfq_qty"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='price_unit']" position="before">
+                    <field name="total_cost"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <grou/>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="total_cost"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_purchase_requisition_tree_ah" model="ir.ui.view">
+            <field name="name">internal location</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='user_id']" position="after">
+                    <field name="vendor_id"/>
+                    <field name="internal_location_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
