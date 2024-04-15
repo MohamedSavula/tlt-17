@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_report_stock_picking" model="ir.actions.report">
+            <field name="name">Print XLS</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">report_stock_picking.report_stock_picking</field>
+            <field name="report_file">Print XLS</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+            <field name="attachment_use">False</field>
+        </record>
+    </data>
+</odoo>

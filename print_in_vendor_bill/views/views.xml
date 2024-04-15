@@ -1,0 +1,202 @@
+<odoo>
+    <data>
+        <record id="id_discount_notice_report" model="ir.actions.report">
+            <field name="name">Discount Notice</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">print_in_vendor_bill.report_vendor_template</field>
+            <field name="report_file">Discount Notice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_vendor_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <t t-if="doc.company_id.id == 1">
+                                <span style="font-size: 20px; font-weight: bold; text-align: center; display: block;">
+                                    شركة
+                                    ذا ليمون تري اندكو هوسبيتاليتي
+                                </span>
+                                <br/>
+                                <span style="font-size: 18px; text-align: center; display: block;">
+                                    بطاقة ضريبية رقم 387-118-663
+                                </span>
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-0"></div>
+                                    <div class="col-12"
+                                         style="font-size: 18px; margin-bottom: 10px;">
+                                        رقم الملف الضريبي : 001/5/02660/522/00/00
+                                        <span>
+                                            مأمورية الشركات المساهمة بالقاهرة
+                                        </span>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-elif="doc.company_id.id == 3">
+                                <span style="font-size: 20px; font-weight: bold; text-align: center; display: block;">
+                                    شركة
+                                    ذا ليمون تري اندكو للفنادق
+                                </span>
+                                <br/>
+                                <span style="font-size: 18px; text-align: center; display: block;">
+                                    بطاقة ضريبية رقم 923-497-723
+                                </span>
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-0"></div>
+                                    <div class="col-12"
+                                         style="font-size: 18px; margin-bottom: 10px;">
+                                        رقم الملف الضريبي : 014/5/00985/523/00/00
+                                        <span>
+                                            مأمورية الشركات المساهمة بالقاهرة
+                                        </span>
+                                    </div>
+                                </div>
+                            </t>
+                            <br/>
+                            <span style="font-size: 18px; text-align: center; display: block;background-color: lightgray; padding: 2px;">
+                                اشعار بالمبالغ المستقطعة
+                            </span>
+                            <span style="font-size: 18px; text-align: center; display: block;background-color: lightgray; padding: 2px;">
+                                لحساب مصلحة الضرائب تنفيذًا لأحكام القانون رقم 91 لسنة 2005
+                            </span>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-2"></div>
+                                <div class="col-2">
+                                    <span t-field='doc.seq' style="font-size: 20px"/>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 20px">رقم الاشعار</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:40px;"/>
+                            <div class="row" style="margin-top:1px; margin-left:80px;">
+                                <div class="col-3">
+                                    <span t-field="doc.amount_total"
+                                          style="font-size: 15px ;text-align: right;"></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 15px ;text-align: right">المبلغ</span>
+                                </div>
+
+                                <div class="col-3">
+                                    <span t-field="doc.partner_id"
+                                          style="font-size: 15px ;text-align: right"></span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">السادة شركة</span>
+                                </div>
+                            </div>
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <div class="row" style="margin-top:1px;margin-left:80px;">
+                                <div class="col-3">
+                                    <span t-esc="doc.get_tax_to_print()"
+                                          style="font-size: 15px; text-align: right"></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 15px ;text-align: right">%النسبة</span>
+                                </div>
+                                <div class="col-3">
+                                    <span t-esc="abs(doc.tax_with)" style="font-size: 15px ;text-align: right"/>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">الضرائب المخصومة</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <div class="row" style="margin-top:1px;margin-left:80px;">
+                                <div class="col-3">
+                                    <span t-field="doc.amount_untaxed"
+                                          style="font-size: 15px ;text-align: right"></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 15px ;text-align: right">القيمة الاجمالية</span>
+                                </div>
+                                <div class="col-3">
+                                    <span t-field="doc.ref" style="font-size: 15px ;text-align: right"></span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">فاتورة رقم</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <div class="row" style="margin-top 1px; margin-left:40px;">
+                                <div class="col-9">
+                                    <span t-esc="doc.partner_id.street[:50] if doc.partner_id.street else ''"
+                                          style="font-size: 15px"/>
+                                    <span t-esc="doc.partner_id.city[:50] if doc.partner_id.city else ''"
+                                          style="font-size: 15px"/>
+                                    <span t-esc="doc.partner_id.state_id.name[:50] if doc.partner_id.state_id else ''"
+                                          style="font-size: 15px"/>
+                                    <span t-esc="doc.partner_id.country_id.name if doc.partner_id.country_id else ''"
+                                          style="font-size: 15px"/>
+                                </div>
+
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">العنوان</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <div class="row" style="margin-top:1px; margin-left:80px;">
+                                <div class="col-3">
+                                    <span></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 15px ;text-align: right">الملف الضريبي</span>
+                                </div>
+                                <div class="col-3">
+                                    <span t-field="doc.partner_id.vat" style="font-size: 15px"></span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">بطاقة ضريبية</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <div class="row" style="margin-top:1px;margin-left:80px;">
+                                <div class="col-3">
+                                    <span></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 15px"></span>
+                                </div>
+                                <div class="col-3">
+                                    <span></span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 15px ;text-align: right">مامورية ضرائب</span>
+                                </div>
+                            </div>
+                            <hr style="border: none; border-top: 1px dotted black; margin: 10px 0;margin-top:20px;"/>
+                            <br/>
+                            <div class="row" style="margin-top:5px; margin-left:80px;">
+                                <div class="col-3">
+                                    <span t-field="doc.invoice_date" style="font-size: 15px"></span>
+                                </div>
+                                <div class="col-3">
+                                    <span style="font-size: 19px">التاريخ</span>
+                                </div>
+                                <div class="col-1">
+                                </div>
+                                <div class="col-3">
+                                </div>
+                                <div class="col-2">
+                                    <span style="font-size: 19px">التوقيع</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--        # stock quant tree-->
+        <record model="ir.ui.view" id="id_view_stock_quant_tree_editable_inherit_add_other_category">
+            <field name="name">view_stock_quant_tree_editable_inherit_add_other_category</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_categ_id']" position="after">
+                    <field name="other_product_category_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        # stock quant search-->
+        <record id="id_quant_search_view_inherit_add_other_category" model="ir.ui.view">
+            <field name="name">quant_search_view_inherit_add_other_category</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_categ_id']" position="after">
+                    <field name="other_product_category_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='transit_loc']" position="after">
+                    <filter string="Other Category" name="other_category"
+                            context="{'group_by':'other_product_category_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        # product product form-->
+        <record model="ir.ui.view" id="id_product_normal_form_view_inherit_add_other_category">
+            <field name="name">product_normal_form_view_inherit_add_other_category</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="other_product_category_id"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        # product template form-->
+        <record model="ir.ui.view" id="id_product_template_only_form_view_inherit_add_other_category">
+            <field name="name">product_template_only_form_view_inherit_add_other_category</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="other_product_category_id"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        # product template tree-->
+        <record model="ir.ui.view" id="id_product_template_tree_view_inherit_add_other_category">
+            <field name="name">product_template_tree_view_inherit_add_other_category</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="other_product_category_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        # product template search-->
+        <record id="id_product_template_search_view_inherit_add_other_category" model="ir.ui.view">
+            <field name="name">product_template_search_view_inherit_add_other_category</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="other_product_category_id"/>
+                </xpath>
+                <xpath expr="//filter[@name='categ_id']" position="after">
+                    <filter string="Other Category" name="other_category"
+                            context="{'group_by':'other_product_category_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

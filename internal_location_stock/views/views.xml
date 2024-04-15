@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_internal_location_to_location" model="ir.actions.server">
+            <field name="name">Internal Location</field>
+            <field name="type">ir.actions.server</field>
+            <field name="binding_model_id" ref="stock.model_stock_quant"/>
+            <field name="model_id" ref="stock.model_stock_quant"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.internal_location_stock()
+            </field>
+        </record>
+        <record id="id_create_sale_order" model="ir.actions.server">
+            <field name="name">Create Sale Order</field>
+            <field name="type">ir.actions.server</field>
+            <field name="binding_model_id" ref="stock.model_stock_quant"/>
+            <field name="model_id" ref="stock.model_stock_quant"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.create_sale_order()
+            </field>
+        </record>
+    </data>
+</odoo>

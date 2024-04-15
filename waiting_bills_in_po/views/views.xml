@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="id_inherit_purchase_order_form_add_waiting_bills" model="ir.ui.view">
+            <field name="name">inherit_purchase_order_form_add_waiting_bills</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="is_waiting_bills"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_inherit_purchase_order_tree_add_waiting_bills" model="ir.ui.view">
+            <field name="name">inherit_purchase_order_tree_add_waiting_bills</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="is_waiting_bills"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="id_view_purchase_order_filter_inherit_add_waiting_bills" model="ir.ui.view">
+            <field name="name">view_purchase_order_filter_inherit_add_waiting_bills</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="is_waiting_bills"/>
+                </xpath>
+                <xpath expr="//filter[@name='activities_exception']" position="after">
+                    <separator/>
+                    <filter string="IS Waiting Bills" name="is_waiting_bills"
+                            domain="[('is_waiting_bills', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
