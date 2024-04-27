@@ -21,7 +21,7 @@
             <field name="name">purchase_order_form_inherit_edit_attributes</field>
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
-            <field name="groups_id" eval="[(4, ref('access_rights.id_group_access_rights_purchase'))]"/>
+<!--            <field name="groups_id" eval="[(4, ref('access_rights.id_group_access_rights_purchase'))]"/>-->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']" position="attributes">
                     <attribute name="readonly">0</attribute>

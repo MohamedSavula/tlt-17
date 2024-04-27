@@ -43,18 +43,20 @@ class HrEmployee(models.Model):
                                  string='Expiry Date',)
     passport_expiry_date = fields.Date(help='Expiry date of Passport ID',
                                        string='Expiry Date')
-    identification_attachment_ids = fields.Many2many(
+    id_attachment_id = fields.Many2many(
         'ir.attachment', 'id_attachment_rel',
-        'id_ref', 'attach_ref', string="Attachment",
-        help='Attach the copy of Identification document')
-    passport_attachment_ids = fields.Many2many(
+        'id_ref', 'attach_ref',
+        string="Attachment",
+        help='You can attach the copy of your Id')
+    passport_attachment_id = fields.Many2many(
         'ir.attachment',
         'passport_attachment_rel',
-        'passport_ref', 'attach_ref1', string="Attachment",
-        help='Attach the copy of Passport')
-    family_info_ids = fields.One2many('hr.employee.family', 'employee_id',
-                                      string='Family',
-                                      help='Family Information')
+        'passport_ref', 'attach_ref1',
+        string="Attachment",
+        help='You can attach the copy of Passport')
+    fam_ids = fields.One2many(
+        'hr.employee.family', 'employee_id',
+        string='Family', help='Family Information')
 
     @api.depends('contract_id')
     def _compute_joining_date(self):
@@ -67,12 +69,12 @@ class HrEmployee(models.Model):
 
     @api.onchange('spouse_complete_name', 'spouse_birthdate')
     def _onchange_spouse_complete_name(self):
-        """Populates the family_info_ids field with the spouse's information,
+        """Populates the fam_ids field with the spouse's information,
          creating a family member record associated with the employee when
          spouse's complete name or birthdate changed."""
         relation = self.env.ref('hr_employee_updation.employee_relationship')
         if self.spouse_complete_name and self.spouse_birthdate:
-            self.family_info_ids = [(0, 0, {
+            self.fam_ids = [(0, 0, {
                 'member_name': self.spouse_complete_name,
                 'relation_id': relation.id,
                 'birth_date': self.spouse_birthdate,
